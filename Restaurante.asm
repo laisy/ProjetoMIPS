@@ -16,7 +16,7 @@
 .text
 Main:
 #----------------------------------Menu Principal---------------------------------------------------------------------------------------------------
-	la $t0, titulo 		#Carrega o menu
+	la $a0, titulo 		#Carrega o menu
 	jal escolha		#Função para mostrar o menu e escolher a opção [ escolha(titulo) ]
 	addi $t1, $t1, 0	#Parâmetro pra saber se a opção escolhido é maior que 0
 	addi $t2, $zero, 5	#Parâmetro pra saber se a opção escolhida é menor ou igual a 5
@@ -26,10 +26,9 @@ Main:
 	j exit			#Fim da execução
 	
 #------------------------------Função de seleçãod e menu escolha(string texto) return int escolhido---------------------------------------------------	
-escolha: 	addi $v0, $zero, 51	#Configurando a syscall para lançar tela de escolha
-		la $a0, ($t0)		#Carregando o "texto" da tela de escolha
-	 	syscall			#Syscall da tela
-	 	jr $ra			#Fim da função
+escolha: 	addi $v0, $zero, 51		#Carregando o "texto" da tela de escolha
+	 	syscall				#Syscall da tela
+	 	jr $ra				#Fim da função
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 #-----------------------------------------------Printf		[void printf(String texto)]	----------------------------------------------------------------------------------------------
@@ -65,16 +64,15 @@ subMenu:	beq $a0, 1, menuCliente		#Menu do cliente foi escolhido
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 #--------------------------------------------------Menu Clientes------------------------------------------------------------------------------------
-menuCliente: 	la $t0, opcaoCliente	#Carrega o menu do cliente
-		jal escolha		#Função para mostrar o menu e escolher a opções [ escolha(opcaoCliente) ]
-		addi $t1, $t1, 0	#Parâmetro pra saber se a opção escolhido é maior que 0
-		addi $t2, $zero, 6	#Parâmetro pra saber se a opção escolhida é menor ou igual a 6
-		jal verificacao	
-		beq $a0, 1, cadastrarCliente	#Função que verifica se a opção escolhida é um número entre 1 e 6 [ verificacao(0, 6) ]
-		j Main			#Fim das operações com o cliente(s)
+menuCliente: 	la $t0, opcaoCliente		#Carrega o menu do cliente
+		jal escolha			#Função para mostrar o menu e escolher a opções [ escolha(opcaoCliente) ]
+		addi $t1, $t1, 0		#Parâmetro pra saber se a opção escolhido é maior que 0
+		addi $t2, $zero, 6		#Parâmetro pra saber se a opção escolhida é menor ou igual a 6
+		jal verificacao			#Função que verifica se a opção escolhida é um número entre 1 e 6 [ verificacao(0, 6) ]
+		jal verificarCliente
+		j Main				#Fim das operações com o cliente(s)
 		
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
 #--------------------------------------------------Menu Pratos (Cárdapio)------------------------------------------------------------------------------------
 menuPrato: 	la $t0, opcaoCardapio	#Carrega o menu dos pratos
 		jal escolha		#Função para mostrar o menu e escolher a opções [ escolha(opcaoCardapio) ]
@@ -109,6 +107,7 @@ menuPedidos: 	la $t0, opcaoPedido	#Carrega o menu de Pedidos
 		addi $t2, $zero, 8	#Parâmetro pra saber se a opção escolhida é menor ou igual a 8
 		jal verificacao		#Função que verifica se a opção escolhida é um número entre 1 e 8 [ verificacao(0, 8) ]
 		j Main			#Fim das operações com os Pedidos
+
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 #--------------------------------------------------Cadastrar Cliente------------------------------------------------------------------------------------
 cadastrarCliente: la $t0, nome		#Carrega o nome	
@@ -129,6 +128,22 @@ pref:	la $t2, preferencia		#Carrega o CPF
 	syscall				#Syscall da tela
 	j Main				#Fim das operações com o cadastro cliente			
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-exit: nop
+#--------------------------------------------------Remover Cliente------------------------------------------------------------------------------------
+removerCliente:	nop
 
-	
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#--------------------------------------------------Editar Cliente------------------------------------------------------------------------------------
+editarCliente:	nop
+
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#--------------------------------------------------Visualizar Cliente------------------------------------------------------------------------------------
+visualizarCliente: nop
+
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#--------------------------------------------------Cadastrar reserva do Cliente------------------------------------------------------------------------------------
+cadastrarReserva: nop
+
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+exit: nop
